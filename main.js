@@ -141,6 +141,27 @@ app.delete("/articles/:id", (req, res) => {
   }
 });
 
+// Delete An Article By Author
+app.delete("/articles", (req, res) => {
+  let find = false;
+  for (let x = 0; x < articles.length; x++) {
+    if (req.body.author == articles[x].author) {
+      find = true;
+      articles.splice(x , 1)
+      x = x -1 
+    }
+  }
+  if (find === true) {
+    res.json({
+      success: true,
+      massage: `Success delete all the articles for the author => ${req.body.author}`,
+    });
+  } else {
+    res.status(404);
+    res.json("Not Found :- You cant delete");
+  }
+});
+
 // run the server locally on the desired port, use the following link to open up the server http://localhost:5000`
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
