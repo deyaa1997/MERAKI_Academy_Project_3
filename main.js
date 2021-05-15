@@ -1,11 +1,12 @@
 const express = require("express");
-
+const { 
+    v4: uuidv4,
+  } = require('uuid');
 const app = express();
 const port = 5000;
 
 // a middleware that enables us to read the received JSON data
 app.use(express.json());
-
 const articles = [
   {
     id: 1,
@@ -50,20 +51,40 @@ app.get("/articles/search_1", (req, res) => {
 });
 
 // to get articles by Id
+
 app.get("/articles/search_2", (req, res) => {
-    const articlesSearch_2 = [];
-    for (let x = 0; x < articles.length; x++) {
-      if (articles[x].id == req.query.id) {
-        articlesSearch_2.push(articles[x]);
-      }
+  const articlesSearch_2 = [];
+  for (let x = 0; x < articles.length; x++) {
+    if (articles[x].id == req.query.id) {
+      articlesSearch_2.push(articles[x]);
     }
-    if (articlesSearch_2.length === 0) {
-      res.json("Not Found");
+  }
+  if (articlesSearch_2.length === 0) {
+    res.json("Not Found");
+  }
+  if (articlesSearch_2.length > 0) {
+    res.status = 200;
+    res.json(articlesSearch_2);
+  }
+});
+
+// To Create New Article 
+
+app.post("/articles", (req, res) => {
+    // Make Random Id
+    let randId = uuidv4()
+    for(let x = 0 ; x < articles.length ; x++){
+        if (articles[x].id === randId){
+            // Change random id again
+            randId = uuidv4()
+            // To Check Array from the begin again x= -1 + 1 >> x will back to 0
+            x = -1
+        }
     }
-    if (articlesSearch_2.length > 0) {
-      res.status = 200;
-      res.json(articlesSearch_2);
-    }
+    res.status(201);
+    const newArticle = {id:randId ,title: req.body.title , description: req.body.description , author : req.body.author }
+    articles.push(newArticle)
+    res.json(newArticle);
   });
 
 // run the server locally on the desired port, use the following link to open up the server http://localhost:5000`
