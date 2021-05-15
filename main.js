@@ -49,6 +49,23 @@ app.get("/articles/search_1", (req, res) => {
   }
 });
 
+// to get articles by Id
+app.get("/articles/search_2", (req, res) => {
+    const articlesSearch_2 = [];
+    for (let x = 0; x < articles.length; x++) {
+      if (articles[x].id == req.query.id) {
+        articlesSearch_2.push(articles[x]);
+      }
+    }
+    if (articlesSearch_2.length === 0) {
+      res.json("Not Found");
+    }
+    if (articlesSearch_2.length > 0) {
+      res.status = 200;
+      res.json(articlesSearch_2);
+    }
+  });
+
 // run the server locally on the desired port, use the following link to open up the server http://localhost:5000`
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
