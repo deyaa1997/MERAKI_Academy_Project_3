@@ -1,7 +1,5 @@
 const express = require("express");
-const { 
-    v4: uuidv4,
-  } = require('uuid');
+const { v4: uuidv4 } = require("uuid");
 const app = express();
 const port = 5000;
 
@@ -68,54 +66,80 @@ app.get("/articles/search_2", (req, res) => {
   }
 });
 
-// To Create New Article 
+// To Create New Article
 
 app.post("/articles", (req, res) => {
-    // Make Random Id
-    let randId = uuidv4()
-    for(let x = 0 ; x < articles.length ; x++){
-        if (articles[x].id === randId){
-            // Change random id again
-            randId = uuidv4()
-            // To Check Array from the begin again x= -1 + 1 >> x will back to 0
-            x = -1
-        }
+  // Make Random Id
+  let randId = uuidv4();
+  for (let x = 0; x < articles.length; x++) {
+    if (articles[x].id === randId) {
+      // Change random id again
+      randId = uuidv4();
+      // To Check Array from the begin again x= -1 + 1 >> x will back to 0
+      x = -1;
     }
-    res.status(201);
-    const newArticle = {id:randId ,title: req.body.title , description: req.body.description , author : req.body.author }
-    articles.push(newArticle)
-    res.json(newArticle);
-  });
+  }
+  res.status(201);
+  const newArticle = {
+    id: randId,
+    title: req.body.title,
+    description: req.body.description,
+    author: req.body.author,
+  };
+  articles.push(newArticle);
+  res.json(newArticle);
+});
 
-  // Update An Article By Id
-  app.put("/articles/:id", (req, res) => {
-    let find = false
-    let i ;
-    for (let x = 0 ; x < articles.length ; x++){
-        if(req.params.id == articles[x].id){
-            find = true
-            i = x
-        }
+// Update An Article By Id
+app.put("/articles/:id", (req, res) => {
+  let find = false;
+  let i;
+  for (let x = 0; x < articles.length; x++) {
+    if (req.params.id == articles[x].id) {
+      find = true;
+      i = x;
     }
-    if (find === true){
-        res.status(200)
-        if (req.body.title){
-            articles[i].title = req.body.title
-        }
-        if (req.body.description){
-            articles[i].description = req.body.description
-        }
-        if (req.body.author){
-            articles[i].author = req.body.author
-        }
-        res.json(articles[i])
-    }else{
-        res.status(404)
-        res.json("Not Found :- You cant update")
+  }
+  if (find === true) {
+    res.status(200);
+    if (req.body.title) {
+      articles[i].title = req.body.title;
     }
-})
+    if (req.body.description) {
+      articles[i].description = req.body.description;
+    }
+    if (req.body.author) {
+      articles[i].author = req.body.author;
+    }
+    res.json(articles[i]);
+  } else {
+    res.status(404);
+    res.json("Not Found :- You cant update");
+  }
+});
 
-
+// Delete An Article By Id
+app.delete("/articles/:id", (req, res) => {
+  let find = false;
+  let i;
+  for (let x = 0; x < articles.length; x++) {
+    if (req.params.id == articles[x].id) {
+      find = true;
+      i = x;
+    }
+  }
+  if (find === true) {
+    let articleId = articles[i].id;
+    articles.splice(i, 1);
+    res.json({
+      success: true,
+      massage: `Success Delete article with id => ${articleId}`,
+    });
+  } else {
+    res.status(404);
+    res.json("Not Found :- You cant delete");
+  }
+});
 
 // run the server locally on the desired port, use the following link to open up the server http://localhost:5000`
 app.listen(port, () => {
