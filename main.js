@@ -26,10 +26,27 @@ const articles = [
     author: "Jouza",
   },
 ];
-
+// to get all articles
 app.get("/articles", (req, res) => {
   res.status(200);
   res.json(articles);
+});
+
+// to get articles by author
+app.get("/articles/search_1", (req, res) => {
+  const articlesSearch_1 = [];
+  for (let x = 0; x < articles.length; x++) {
+    if (articles[x].author === req.query.author) {
+      articlesSearch_1.push(articles[x]);
+    }
+  }
+  if (articlesSearch_1.length === 0) {
+    res.json("Not Found");
+  }
+  if (articlesSearch_1.length > 0) {
+    res.status = 200;
+    res.json(articlesSearch_1);
+  }
 });
 
 // run the server locally on the desired port, use the following link to open up the server http://localhost:5000`
