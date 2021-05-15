@@ -87,6 +87,36 @@ app.post("/articles", (req, res) => {
     res.json(newArticle);
   });
 
+  // Update An Article By Id
+  app.put("/articles/:id", (req, res) => {
+    let find = false
+    let i ;
+    for (let x = 0 ; x < articles.length ; x++){
+        if(req.params.id == articles[x].id){
+            find = true
+            i = x
+        }
+    }
+    if (find === true){
+        res.status(200)
+        if (req.body.title){
+            articles[i].title = req.body.title
+        }
+        if (req.body.description){
+            articles[i].description = req.body.description
+        }
+        if (req.body.author){
+            articles[i].author = req.body.author
+        }
+        res.json(articles[i])
+    }else{
+        res.status(404)
+        res.json("Not Found :- You cant update")
+    }
+})
+
+
+
 // run the server locally on the desired port, use the following link to open up the server http://localhost:5000`
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
