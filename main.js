@@ -1,6 +1,6 @@
 const express = require("express");
 const { v4: uuidv4 } = require("uuid");
-const db = require("./db")
+const db = require("./db");
 const { Users, Articles } = require("./schema");
 const app = express();
 const port = 5000;
@@ -70,7 +70,7 @@ app.get("/articles/search_2", (req, res) => {
 
 // To Create New Article
 
-app.post("/articles", (req, res) => {
+app.post("/articles", async(req, res) => {
   // Make Random Id
   let randId = uuidv4();
   for (let x = 0; x < articles.length; x++) {
@@ -82,14 +82,35 @@ app.post("/articles", (req, res) => {
     }
   }
   res.status(201);
-  const newArticle = {
+
+  let author1;
+
+  await Users.findOne(
+    {})
+      .then((result) => {
+        author1 = result;
+        console.log(author1);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+
+
+  const article = new Articles({
     id: randId,
     title: req.body.title,
     description: req.body.description,
-    author: req.body.author,
-  };
-  articles.push(newArticle);
-  res.json(newArticle);
+    author: author1._id,
+  });
+
+  article
+    .save()
+    .then((result) => {
+      res.json(result);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
 });
 
 // Update An Article By Id
@@ -165,18 +186,27 @@ app.delete("/articles", (req, res) => {
 });
 
 // Create New Author
-app.post("/users", (req,res)=>{
-  const {firstName , lastName , age , country , email , password } = req.body
+app.post("/users", (req, res) => {
+  const { firstName, lastName, age, country, email, password } = req.body;
 
-  const author = new Users( {firstName , lastName , age , country , email , password})
+  const author = new Users({
+    firstName,
+    lastName,
+    age,
+    country,
+    email,
+    password,
+  });
 
-  author.save().then((result) => {
-    res.json(result)
-  }).catch( (err)=> {
-    res.json(err)
-  })
-})
-
+  author
+    .save()
+    .then((result) => {
+      res.json(result);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+});
 
 // run the server locally on the desired port, use the following link to open up the server http://localhost:5000`
 app.listen(port, () => {
