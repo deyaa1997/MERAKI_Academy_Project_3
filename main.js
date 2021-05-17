@@ -39,20 +39,23 @@ app.get("/articles", (req, res) => {
 });
 
 // to get articles by author
-app.get("/articles/search_1", (req, res) => {
-  const articlesSearch_1 = [];
-  for (let x = 0; x < articles.length; x++) {
-    if (articles[x].author === req.query.author) {
-      articlesSearch_1.push(articles[x]);
-    }
-  }
-  if (articlesSearch_1.length === 0) {
-    res.json("Not Found");
-  }
-  if (articlesSearch_1.length > 0) {
-    res.status = 200;
-    res.json(articlesSearch_1);
-  }
+app.get("/articles/search_1", async(req, res) => {
+  
+  let authorId;
+  await Users.findOne({firstName:req.query.author}).then((result)=>{
+    authorId = result._id
+    console.log(authorId)
+  }).catch((err) => {
+    console.log(err)
+  })
+
+  Articles.find({author: authorId}).then((result) =>{
+    res.status(200);
+    res.json(result);
+  }).catch((err)=>{
+    res.json(err)
+  })
+  
 });
 
 // to get articles by Id
