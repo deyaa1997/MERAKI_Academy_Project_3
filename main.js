@@ -29,56 +29,55 @@ const articles = [
 ];
 // to get all articles
 app.get("/articles", (req, res) => {
-
-  Articles.find({}).then((result) =>{
-    res.status(200);
-    res.json(result);
-  }).catch((err)=>{
-    res.json(err)
-  })
+  Articles.find({})
+    .then((result) => {
+      res.status(200);
+      res.json(result);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
 });
 
 // to get articles by author
-app.get("/articles/search_1", async(req, res) => {
-  
+app.get("/articles/search_1", async (req, res) => {
   let authorId;
-  await Users.findOne({firstName:req.query.author}).then((result)=>{
-    authorId = result._id
-    console.log(authorId)
-  }).catch((err) => {
-    console.log(err)
-  })
+  await Users.findOne({ firstName: req.query.author })
+    .then((result) => {
+      authorId = result._id;
+      console.log(authorId);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 
-  Articles.find({author: authorId}).then((result) =>{
-    res.status(200);
-    res.json(result);
-  }).catch((err)=>{
-    res.json(err)
-  })
-  
+  Articles.find({ author: authorId })
+    .then((result) => {
+      res.status(200);
+      res.json(result);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
 });
 
 // to get articles by Id
 
 app.get("/articles/search_2", (req, res) => {
-  const articlesSearch_2 = [];
-  for (let x = 0; x < articles.length; x++) {
-    if (articles[x].id == req.query.id) {
-      articlesSearch_2.push(articles[x]);
-    }
-  }
-  if (articlesSearch_2.length === 0) {
-    res.json("Not Found");
-  }
-  if (articlesSearch_2.length > 0) {
-    res.status = 200;
-    res.json(articlesSearch_2);
-  }
+  Articles.findOne({ _id: req.query.id }).populate("author", "firsName")
+  .exec()
+    .then((result) => {
+      res.status(200);
+      res.json(result);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
 });
 
 // To Create New Article
 
-app.post("/articles", async(req, res) => {
+app.post("/articles", async (req, res) => {
   // Make Random Id
   let randId = uuidv4();
   for (let x = 0; x < articles.length; x++) {
@@ -89,20 +88,17 @@ app.post("/articles", async(req, res) => {
       x = -1;
     }
   }
-  res.status(201);
 
   let author1;
 
-  await Users.findOne(
-    {})
-      .then((result) => {
-        author1 = result;
-        console.log(author1);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-
+  await Users.findOne({})
+    .then((result) => {
+      author1 = result;
+      console.log(author1);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 
   const article = new Articles({
     id: randId,
@@ -115,6 +111,7 @@ app.post("/articles", async(req, res) => {
     .save()
     .then((result) => {
       res.json(result);
+      res.status(201);
     })
     .catch((err) => {
       res.send(err);
