@@ -64,8 +64,9 @@ app.get("/articles/search_1", async (req, res) => {
 // to get articles by Id
 
 app.get("/articles/search_2", (req, res) => {
-  Articles.findOne({ _id: req.query.id }).populate("author", "firsName")
-  .exec()
+  Articles.findOne({ _id: req.query.id })
+    .populate("author", "firsName")
+    .exec()
     .then((result) => {
       res.status(200);
       res.json(result);
@@ -119,14 +120,14 @@ app.post("/articles", async (req, res) => {
 });
 
 // Update An Article By Id
-app.put("/articles/:id", async(req, res) => {
-
-
-  Articles
-    .updateOne({_id: req.params.id}, {
+app.put("/articles/:id", async (req, res) => {
+  Articles.updateOne(
+    { _id: req.params.id },
+    {
       title: req.body.title,
-      description: req.body.description
-    })
+      description: req.body.description,
+    }
+  )
     .then((result) => {
       res.send("Updated Complete");
     })
@@ -135,49 +136,60 @@ app.put("/articles/:id", async(req, res) => {
     });
 });
 
-
 // Delete An Article By Id
 app.delete("/articles/:id", (req, res) => {
-  let find = false;
-  let i;
-  for (let x = 0; x < articles.length; x++) {
-    if (req.params.id == articles[x].id) {
-      find = true;
-      i = x;
-    }
-  }
-  if (find === true) {
-    let articleId = articles[i].id;
-    articles.splice(i, 1);
-    res.json({
-      success: true,
-      massage: `Success Delete article with id => ${articleId}`,
+  //let find = false;
+  //let i;
+  //for (let x = 0; x < articles.length; x++) {
+  //  if (req.params.id == articles[x].id) {
+  //    find = true;
+  //    i = x;
+  //  }
+  //}
+  //if (find === true) {
+  //  let articleId = articles[i].id;
+  //  articles.splice(i, 1);
+  //  res.json({
+  //    success: true,
+  //    massage: `Success Delete article with id => ${articleId}`,
+  //  });
+  //} else {
+  //  res.status(404);
+  //  res.json("Not Found :- You cant delete");
+  //}
+
+  Articles.deleteOne({ _id: req.params.id })
+    .then((result) => {
+      res.send("Deleted Complete");
+    })
+    .catch((err) => {
+      res.send(err);
     });
-  } else {
-    res.status(404);
-    res.json("Not Found :- You cant delete");
-  }
 });
 
 // Delete An Article By Author
 app.delete("/articles", (req, res) => {
-  let find = false;
-  for (let x = 0; x < articles.length; x++) {
-    if (req.body.author == articles[x].author) {
-      find = true;
-      articles.splice(x, 1);
-      x = x - 1;
-    }
-  }
-  if (find === true) {
-    res.json({
-      success: true,
-      massage: `Success delete all the articles for the author => ${req.body.author}`,
-    });
-  } else {
-    res.status(404);
-    res.json("Not Found :- You cant delete");
-  }
+//  let find = false;
+//  for (let x = 0; x < articles.length; x++) {
+//    if (req.body.author == articles[x].author) {
+//      find = true;
+//      articles.splice(x, 1);
+//      x = x - 1;
+//    }
+//  }
+//  if (find === true) {
+//    res.json({
+//      success: true,
+//      massage: `Success delete all the articles for the author => ${req.body.author}`,
+//    });
+//  } else {
+//    res.status(404);
+//    res.json("Not Found :- You cant delete");
+//  }
+
+
+
+
 });
 
 // Create New Author
