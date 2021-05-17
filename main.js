@@ -29,8 +29,13 @@ const articles = [
 ];
 // to get all articles
 app.get("/articles", (req, res) => {
-  res.status(200);
-  res.json(articles);
+
+  Articles.find({}).then((result) =>{
+    res.status(200);
+    res.json(result);
+  }).catch((err)=>{
+    res.json(err)
+  })
 });
 
 // to get articles by author
