@@ -1,5 +1,7 @@
 const express = require("express");
 const { v4: uuidv4 } = require("uuid");
+const db = require("./db")
+const { Users, Articles } = require("./schema");
 const app = express();
 const port = 5000;
 
@@ -147,8 +149,8 @@ app.delete("/articles", (req, res) => {
   for (let x = 0; x < articles.length; x++) {
     if (req.body.author == articles[x].author) {
       find = true;
-      articles.splice(x , 1)
-      x = x -1 
+      articles.splice(x, 1);
+      x = x - 1;
     }
   }
   if (find === true) {
