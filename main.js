@@ -119,32 +119,22 @@ app.post("/articles", async (req, res) => {
 });
 
 // Update An Article By Id
-app.put("/articles/:id", (req, res) => {
-  let find = false;
-  let i;
-  for (let x = 0; x < articles.length; x++) {
-    if (req.params.id == articles[x].id) {
-      find = true;
-      i = x;
-    }
-  }
-  if (find === true) {
-    res.status(200);
-    if (req.body.title) {
-      articles[i].title = req.body.title;
-    }
-    if (req.body.description) {
-      articles[i].description = req.body.description;
-    }
-    if (req.body.author) {
-      articles[i].author = req.body.author;
-    }
-    res.json(articles[i]);
-  } else {
-    res.status(404);
-    res.json("Not Found :- You cant update");
-  }
+app.put("/articles/:id", async(req, res) => {
+
+
+  Articles
+    .updateOne({_id: req.params.id}, {
+      title: req.body.title,
+      description: req.body.description
+    })
+    .then((result) => {
+      res.send("Updated Complete");
+    })
+    .catch((err) => {
+      res.send(err);
+    });
 });
+
 
 // Delete An Article By Id
 app.delete("/articles/:id", (req, res) => {
