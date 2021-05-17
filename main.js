@@ -168,28 +168,43 @@ app.delete("/articles/:id", (req, res) => {
 });
 
 // Delete An Article By Author
-app.delete("/articles", (req, res) => {
-//  let find = false;
-//  for (let x = 0; x < articles.length; x++) {
-//    if (req.body.author == articles[x].author) {
-//      find = true;
-//      articles.splice(x, 1);
-//      x = x - 1;
-//    }
-//  }
-//  if (find === true) {
-//    res.json({
-//      success: true,
-//      massage: `Success delete all the articles for the author => ${req.body.author}`,
-//    });
-//  } else {
-//    res.status(404);
-//    res.json("Not Found :- You cant delete");
-//  }
+app.delete("/articles", async(req, res) => {
+  //  let find = false;
+  //  for (let x = 0; x < articles.length; x++) {
+  //    if (req.body.author == articles[x].author) {
+  //      find = true;
+  //      articles.splice(x, 1);
+  //      x = x - 1;
+  //    }
+  //  }
+  //  if (find === true) {
+  //    res.json({
+  //      success: true,
+  //      massage: `Success delete all the articles for the author => ${req.body.author}`,
+  //    });
+  //  } else {
+  //    res.status(404);
+  //    res.json("Not Found :- You cant delete");
+  //  }
+  let authorId;
+
+  await Users.findOne({firstName: req.body.author})
+    .then((result) => {
+      authorId = result._id;
+      console.log(authorId);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 
 
-
-
+  Articles.deleteOne({ author: authorId })
+    .then((result) => {
+      res.send("Deleted Complete");
+    })
+    .catch((err) => {
+      res.send(err);
+    });
 });
 
 // Create New Author
