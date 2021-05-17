@@ -164,6 +164,20 @@ app.delete("/articles", (req, res) => {
   }
 });
 
+// Create New Author
+app.post("/users", (req,res)=>{
+  const {firstName , lastName , age , country , email , password } = req.body
+
+  const author = new Users( {firstName , lastName , age , country , email , password})
+
+  author.save().then((result) => {
+    res.json(result)
+  }).catch( (err)=> {
+    res.json(err)
+  })
+})
+
+
 // run the server locally on the desired port, use the following link to open up the server http://localhost:5000`
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);

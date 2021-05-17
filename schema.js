@@ -1,11 +1,12 @@
 const mongoose = require("mongoose");
 
 const usersSchema = new mongoose.Schema({
-  firstName: { type: String },
-  lastName: { type: String },
-  age: { type: Number },
-  country: { type: String },
-  password: { type: String },
+  firstName: { type: String ,required: true },
+  lastName: { type: String ,required: true},
+  age: { type: Number ,required: true},
+  country: { type: String ,required: true},
+  email : {type: String , required : true , unique:true},
+  password: { type: String ,required: true},
 });
 
 const articlesSchema = new mongoose.Schema({
