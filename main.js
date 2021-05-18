@@ -65,7 +65,7 @@ app.get("/articles/search_1", async (req, res) => {
 
 app.get("/articles/search_2", (req, res) => {
   Articles.findOne({ _id: req.query.id })
-    .populate("author", "firsName")
+    .populate("author","firstName")
     .exec()
     .then((result) => {
       res.status(200);
