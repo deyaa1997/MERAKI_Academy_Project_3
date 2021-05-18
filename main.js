@@ -245,6 +245,41 @@ app.post("/login", (req, res) => {
     });
 });
 
+app.post("/articles/:id/comments", async (req, res) => {
+
+      const comment1 = new Comments({
+        comment: req.body.comment,
+        commenter: req.body.commenter,
+      });
+
+    await comment1
+    .save()
+    .then((result) => {
+      res.status(201);
+      res.json(result);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+
+    let comment;
+    await Comments.findOne({comment: req.body.comment,
+      commenter: req.body.commenter,}).then((result)=>{
+        comment = result
+        console.log(comment)
+      }).catch((err) =>{
+        res.json(err)
+      })
+
+    Articles.updateOne({_id : req.params.id},{ $push: { comments: comment._id  } }).then((result)=>{
+      res.status(201)
+    }).catch((err) => {
+      res.send(401)
+      res.json(err)
+    })
+
+});
+
 // run the server locally on the desired port, use the following link to open up the server http://localhost:5000`
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
