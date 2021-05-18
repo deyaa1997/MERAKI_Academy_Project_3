@@ -18,7 +18,7 @@ const articlesSchema = new mongoose.Schema({
 
 const commentsSchema = new mongoose.Schema({
   comment: { type: String ,required: true },
-  commenter: { type: mongoose.Schema.ObjectId, ref: "User" ,required: true},
+  commenter: { type: mongoose.Schema.ObjectId, ref: "User",required: true}
 });
 
 

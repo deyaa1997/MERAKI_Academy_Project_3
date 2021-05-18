@@ -1,7 +1,7 @@
 const express = require("express");
 const { v4: uuidv4 } = require("uuid");
 const db = require("./db");
-const { Users, Articles } = require("./schema");
+const { Users, Articles, Comments } = require("./schema");
 const app = express();
 const port = 5000;
 
@@ -65,7 +65,7 @@ app.get("/articles/search_1", async (req, res) => {
 
 app.get("/articles/search_2", (req, res) => {
   Articles.findOne({ _id: req.query.id })
-    .populate("author","firstName")
+    .populate("author", "firstName")
     .exec()
     .then((result) => {
       res.status(200);
@@ -168,7 +168,7 @@ app.delete("/articles/:id", (req, res) => {
 });
 
 // Delete An Article By Author
-app.delete("/articles", async(req, res) => {
+app.delete("/articles", async (req, res) => {
   //  let find = false;
   //  for (let x = 0; x < articles.length; x++) {
   //    if (req.body.author == articles[x].author) {
@@ -188,7 +188,7 @@ app.delete("/articles", async(req, res) => {
   //  }
   let authorId;
 
-  await Users.findOne({firstName: req.body.author})
+  await Users.findOne({ firstName: req.body.author })
     .then((result) => {
       authorId = result._id;
       console.log(authorId);
@@ -196,7 +196,6 @@ app.delete("/articles", async(req, res) => {
     .catch((err) => {
       console.log(err);
     });
-
 
   Articles.deleteOne({ author: authorId })
     .then((result) => {
@@ -224,6 +223,22 @@ app.post("/users", (req, res) => {
     .save()
     .then((result) => {
       res.json(result);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+});
+
+app.post("/login", (req, res) => {
+  Users.find({ email: req.body.email , password: req.body.password })
+    .then((result) => {
+      if (result.length > 0) {
+        res.status(200);
+        res.json("Valid login credentials");
+      } else {
+        res.status(401);
+        res.json("Invalid login credentials");
+      }
     })
     .catch((err) => {
       res.json(err);
