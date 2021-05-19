@@ -6,6 +6,7 @@ const app = express();
 const port = 5000;
 require("dotenv").config();
 const jwt = require("jsonwebtoken")
+const bcrypt = require("bcrypt");
 
 // a middleware that enables us to read the received JSON data
 app.use(express.json());
@@ -225,7 +226,6 @@ app.post("/users", (req, res) => {
     email,
     password,
   });
-
   author
     .save()
     .then((result) => {

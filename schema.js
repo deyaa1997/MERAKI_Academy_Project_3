@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const bcrypt = require("bcrypt")
 const usersSchema = new mongoose.Schema({
   firstName: { type: String ,required: true },
   lastName: { type: String ,required: true},
@@ -21,7 +21,12 @@ const commentsSchema = new mongoose.Schema({
   commenter: { type: mongoose.Schema.ObjectId, ref: "User",required: true}
 });
 
-
+usersSchema.pre("save", async function () {
+  // `this` refers to the newly created user before saving
+  const hashedPassword = await bcrypt.hash(this.password, 10);
+  this.email = this.email.toLowerCase();
+  this.password = hashedPassword
+});
 
 
 module.exports.Users = mongoose.model("User", usersSchema);
