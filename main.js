@@ -4,6 +4,8 @@ const db = require("./db");
 const { Users, Articles, Comments } = require("./schema");
 const app = express();
 const port = 5000;
+require("dotenv").config();
+const jwt = require("jsonwebtoken")
 
 // a middleware that enables us to read the received JSON data
 app.use(express.json());
@@ -27,6 +29,11 @@ const articles = [
     author: "Jouza",
   },
 ];
+
+console.log(process.env.DB_URI)
+console.log(process.env.SECRET)
+
+
 // to get all articles
 app.get("/articles", (req, res) => {
   Articles.find({})
