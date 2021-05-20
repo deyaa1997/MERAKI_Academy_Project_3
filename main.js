@@ -1,13 +1,13 @@
 const express = require("express");
 const { v4: uuidv4 } = require("uuid");
 const db = require("./db");
-const { Users, Articles, Comments } = require("./schema");
+const { Users, Articles, Comments , Roles } = require("./schema");
 const app = express();
 const port = 5000;
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const { Error } = require("mongoose");
+const { Error, Mongoose } = require("mongoose");
 
 // a middleware that enables us to read the received JSON data
 app.use(express.json());
@@ -231,9 +231,27 @@ app.delete("/articles", async (req, res) => {
     });
 });
 
+// Create Role 
+app.post("/role", (req, res ) =>{
+  const {role , permissions } = req.body
+
+  const newRole = new Roles({
+    role,
+    permissions : permissions
+  })
+
+  newRole.save().then((result)=>{
+    res.json(result)
+  }).catch((err)=>{
+    res.json(err)
+  })
+
+})
+
+
 // Create New Author
 app.post("/users", (req, res) => {
-  const { firstName, lastName, age, country, email, password } = req.body;
+  const { firstName, lastName, age, country, email, password , role } = req.body;
 
   const author = new Users({
     firstName,
@@ -242,6 +260,7 @@ app.post("/users", (req, res) => {
     country,
     email,
     password,
+    role
   });
   author
     .save()
@@ -267,6 +286,10 @@ app.post("/login", (req, res) => {
       } else {
         let id = result._id;
         let country = result.country;
+        Roles.findOne({_id : result.role}).then((resu)=>{
+          let r = resu.role
+          let p = resu.permissions
+
         bcrypt.compare(req.body.password, result.password, (err, result) => {
           if (result === false) {
             const err = new Error("The password you’ve entered is incorrect");
@@ -276,24 +299,26 @@ app.post("/login", (req, res) => {
               status: err.status,
             });
           } else {
+            Roles.findOne({role:"admin"})
             const payload = {
               userId: id,
               country: country,
+              role: {role: r , permissions: p}
             };
-
+            console.log(payload)
             const options = { expiresIn: "60m" };
 
             const secret = process.env.SECRET;
             const token = jwt.sign(payload, secret, options);
 
             res.json({ token: token });
-          }
+          }})
         });
       }
     })
     .catch((err) => {
       res.json(err);
-    });
+    })
 });
 
 app.post("/articles/:id/comments",authentication, async (req, res) => {

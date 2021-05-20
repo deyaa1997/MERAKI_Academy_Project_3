@@ -31,7 +31,7 @@ usersSchema.pre("save", async function () {
 
 const rolesSchema = new mongoose.Schema({
   role:{type:String , required:true},
-  Permissions :[String]
+  permissions :[{type:String }]
 })
 
 
