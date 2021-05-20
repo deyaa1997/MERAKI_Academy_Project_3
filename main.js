@@ -51,6 +51,13 @@ const authentication = (req, res, next) => {
   });
 };
 
+const d = (s)=>{
+  
+  return (req,res,next)=>{
+    
+  }
+}
+
 console.log(process.env.DB_URI);
 console.log(process.env.SECRET);
 
