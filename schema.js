@@ -28,6 +28,11 @@ usersSchema.pre("save", async function () {
   this.password = hashedPassword
 });
 
+const rolesSchema = new mongoose.Schema({
+  role:{type:String , required:true},
+  Permissions :[String]
+})
+
 
 module.exports.Users = mongoose.model("User", usersSchema);
 module.exports.Articles = mongoose.model("Article", articlesSchema);

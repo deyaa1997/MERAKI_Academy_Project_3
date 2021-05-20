@@ -35,7 +35,6 @@ const articles = [
 const authentication = (req, res, next) => {
   const token = req.headers.authorization.split(" ")[1];
   const secret = process.env.SECRET
-  console.log(token)
   jwt.verify(token, secret, (err, result) => {
     if (err) {
       const err = new Error("The token is invalid or expired");
