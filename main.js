@@ -44,6 +44,8 @@ const authentication = (req, res, next) => {
         status:err.status
       })
     }if (result){
+      req.token = result
+      console.log(result)
       next()
     }
   });
