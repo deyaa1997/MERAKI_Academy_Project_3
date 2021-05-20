@@ -7,6 +7,7 @@ const usersSchema = new mongoose.Schema({
   country: { type: String ,required: true},
   email : {type: String , required : true , unique:true},
   password: { type: String ,required: true},
+  role: {type: mongoose.Schema.ObjectId , ref :"Role"}
 });
 
 const articlesSchema = new mongoose.Schema({
@@ -37,3 +38,4 @@ const rolesSchema = new mongoose.Schema({
 module.exports.Users = mongoose.model("User", usersSchema);
 module.exports.Articles = mongoose.model("Article", articlesSchema);
 module.exports.Comments = mongoose.model("Comment", commentsSchema);
+module.exports.Roles = mongoose.model("Role", rolesSchema);
