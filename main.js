@@ -7,6 +7,7 @@ const port = 5000;
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const { Error } = require("mongoose");
 
 // a middleware that enables us to read the received JSON data
 app.use(express.json());
@@ -30,6 +31,24 @@ const articles = [
     author: "Jouza",
   },
 ];
+
+const authentication = (req, res, next) => {
+  const token = req.headers.authorization.split(" ")[1];
+  const secret = process.env.SECRET
+  console.log(token)
+  jwt.verify(token, secret, (err, result) => {
+    if (err) {
+      const err = new Error("The token is invalid or expired");
+      err.status = 403;
+      res.json({
+        message:err.message,
+        status:err.status
+      })
+    }if (result){
+      next()
+    }
+  });
+};
 
 console.log(process.env.DB_URI);
 console.log(process.env.SECRET);
@@ -235,7 +254,7 @@ app.post("/users", (req, res) => {
     });
 });
 
-// Check Email and Password 
+// Check Email and Password
 app.post("/login", (req, res) => {
   Users.findOne({ email: req.body.email })
     .then((result) => {
@@ -246,38 +265,39 @@ app.post("/login", (req, res) => {
           message: err.message,
           status: err.status,
         });
-      }else{
-        let id = result._id 
-        let country = result.country
+      } else {
+        let id = result._id;
+        let country = result.country;
         bcrypt.compare(req.body.password, result.password, (err, result) => {
-          if (result === false){
+          if (result === false) {
             const err = new Error("The password you’ve entered is incorrect");
-        err.status = 403;
-        res.json({
-          message: err.message,
-          status: err.status,
-        });
-          }else {
+            err.status = 403;
+            res.json({
+              message: err.message,
+              status: err.status,
+            });
+          } else {
             const payload = {
-              userId:id,
-              country :country
-            }
+              userId: id,
+              country: country,
+            };
 
-            const options = {expiresIn: "60m"}
+            const options = { expiresIn: "60m" };
 
-            const secret = process.env.SECRET
-            const token = jwt.sign(payload,secret,options)
+            const secret = process.env.SECRET;
+            const token = jwt.sign(payload, secret, options);
 
-            res.json({token:token})
-            }
-            })
-                };
-      }).catch((err) => {
-        res.json(err);
-      });
+            res.json({ token: token });
+          }
+        });
+      }
     })
+    .catch((err) => {
+      res.json(err);
+    });
+});
 
-app.post("/articles/:id/comments", async (req, res) => {
+app.post("/articles/:id/comments",authentication, async (req, res) => {
   const comment1 = new Comments({
     comment: req.body.comment,
     commenter: req.body.commenter,
