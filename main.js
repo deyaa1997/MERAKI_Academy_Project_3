@@ -51,11 +51,25 @@ const authentication = (req, res, next) => {
   });
 };
 
-const d = (s)=>{
-  
+const authorization = (p)=>{
+
   return (req,res,next)=>{
-    
-  }
+    let status = false
+    for (let x = 0 ; x < req.token.role.permissions.length ; x++){
+      if (req.token.role.permissions[x] === p ){
+        status = true
+      }
+    }
+    if (status === false){
+      const err = new Error("forbidden");
+      err.status = 403;
+      res.json({
+        message:err.message,
+        status:err.status
+      })
+    }else{
+      next()
+  }}
 }
 
 console.log(process.env.DB_URI);
@@ -330,7 +344,7 @@ app.post("/login", (req, res) => {
     })
 });
 
-app.post("/articles/:id/comments",authentication, async (req, res) => {
+app.post("/articles/:id/comments",[authentication,authorization('CREATE_COMMENTS')], async (req, res) => {
   const comment1 = new Comments({
     comment: req.body.comment,
     commenter: req.body.commenter,
