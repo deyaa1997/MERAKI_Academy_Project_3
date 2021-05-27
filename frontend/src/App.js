@@ -1,10 +1,14 @@
 import React from 'react';
-import './App.css';
+import Header from "./components/header"
+import Rigster from "./components/Rigster"
+
 
 export default function App() {
   return (
-    <div>
+    <div >
       <p>App</p>
+      <Header />
+      <Rigster />
     </div>
   );
 }
