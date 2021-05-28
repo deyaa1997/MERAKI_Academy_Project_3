@@ -2,7 +2,6 @@ import React from 'react';
 import Header from "./components/header"
 import Rigster from "./components/Rigster"
 
-
 export default function App() {
   return (
     <div >
