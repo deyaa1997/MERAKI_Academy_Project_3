@@ -22,6 +22,7 @@ export default function Rigster() {
   })
     }
     return (<div >
+      <p>Rigster:</p>
         <input type={Text} placeholder="firstName here" onChange={(e)=>{setFirstName(e.target.value)}}></input>
         <br/>
         <input type={Text} placeholder="lastName here" onChange={(e)=>{setLastName(e.target.value)}}></input>

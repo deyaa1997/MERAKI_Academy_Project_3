@@ -1,9 +1,9 @@
 import React from 'react';
-
+import { Link, Route } from "react-router-dom";
 export default function Header() {
     return (<div>
-        <a href="">Login </a>
+        <Link to="/login">Login </Link>
         { "... " }
-        <a href="">Rigster</a>
+        <Link to="/rigster">Rigster</Link>
     </div>)
 }
