@@ -15,7 +15,7 @@ export default function App() {
       <Header token={token}/>
       <Route exact path="/rigster" component={Rigster} />
       <Route exact path="/login"   render={() => <Login func={setToken} />} />
-      <Route exact path="/dashboard"   component={Dashboard} />
+      <Route exact path="/dashboard"   render={()=> <Dashboard token={token}/>} />
       <Route exact path="/newarticle"   render={()=> <NewArticle token={token}/>} />
     </div>
   );
