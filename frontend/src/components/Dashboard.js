@@ -1,10 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import axios from "axios"
 export default function Dashboard({token}) {
     const [articles,setArticles] = useState([])
+    useEffect(() => {
+        if (token){
+        axios.get("http://localhost:5000/articles").then( function(res){
+            setArticles(res.data)
+            
+        })
+    }}
+
+    , []);
     const getArticle = ()=>{
         if (token){
-        axios.get("http://localhost:5000/articles").then(async function(res){
+        axios.get("http://localhost:5000/articles").then( function(res){
             setArticles(res.data)
             console.log(res)
             
