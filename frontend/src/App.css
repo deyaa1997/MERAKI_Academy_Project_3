@@ -1,0 +1,161 @@
+.main{
+    border-style: solid;
+    border-color: green;
+}
+
+.header{
+    padding-top: 15px;
+    padding-left: 15px;
+    display: flex;
+    gap: 20px;
+    border-color: red;
+    border-style: solid;
+    height: 35px;
+    margin: 10px;
+    font-family:sans-serif;
+}
+
+.Rigster{
+    border-style: solid ;
+    border-color: blue;
+    font-family:sans-serif;
+    font-size: large;
+    margin: 10px;
+}
+
+.inp{
+    width: 300px;
+    margin-top: 3px;
+    height: 20px;
+    border-radius: 3px;
+    border-style:solid;
+    border-color: rgba(0, 0, 0, 0.472)
+}
+
+.btn{
+    width: 308px;
+    border-radius: 3px;
+    border-style: none;
+    margin-top: 3px;
+    height: 30px;
+    color: white;
+    background-color: rgb(31,121,253);
+    cursor: pointer;
+    margin-bottom: 5px;
+    font-family:sans-serif;
+}
+
+.rigMess{
+    border-style: none;
+    border-radius: 3px;
+    background-color: #96b5a6;
+    height: 40px;
+    width: 308px;
+    margin-bottom: 10px;
+    margin-top: -15px ;
+    text-align: center;
+    color: rgb(46, 80, 60);
+}
+
+.rigMess1{
+    border-style: none;
+    border-radius: 3px;
+    background-color: rgb(248,215,218);
+    width: 308px;
+    height: 40px;
+    font-size: medium;
+    text-align: center;
+    margin-top: -15px ;
+    margin-bottom: 10px;
+    color: rgb(148, 87, 84);
+}
+
+.pMess{
+    padding-top: 8px ;
+}
+
+.Login{
+    border-style: solid;
+    border-color: blueviolet;
+    font-family:sans-serif;
+    font-size: large;
+    margin: 10px;
+}
+
+.New{
+    border-style: solid;
+    border-color: rgb(255,167,5);
+    font-family:sans-serif;
+    font-size: large;
+    margin: 10px;
+}
+
+.inp1{
+    font-family:sans-serif;
+    height: 100px;
+    width: 302px;
+    margin-top: 3px;
+    border-radius: 3px;
+    border-style:solid;
+}
+
+.btn1{
+    width: 308px;
+    border-radius: 3px;
+    border-style: none;
+    margin-top: 3px;
+    height: 30px;
+    background-color: rgb(13,202,240);
+    cursor: pointer;
+    font-family:sans-serif;
+}
+
+.rigArt{
+    border-style: none;
+    border-radius: 3px;
+    background-color: #96b5a6;
+    height: 60px;
+    width: 308px;
+    margin-bottom: 10px;
+    margin-top: -15px ;
+    text-align: center;
+    color: rgb(46, 80, 60);
+    font-family:sans-serif;
+}
+
+.rigArt1{
+    border-style: none;
+    border-radius: 3px;
+    background-color: rgb(248,215,218);
+    width: 308px;
+    height: 60px;
+    font-size: medium;
+    text-align: center;
+    margin-top: -15px ;
+    margin-bottom: 10px;
+    color: rgb(148, 87, 84);
+    font-family:sans-serif;
+}
+
+.Dashboard{
+    border-style:solid;
+    border-color:rgb(240, 240, 240) ;
+    padding-left: 10px;
+    padding-bottom: 20px;
+    
+}
+
+.grid{
+    display: grid;
+}
+
+.btn2{
+    border-radius: 3px;
+    border-style: none;
+    height: 40px;
+    margin-left: 10px;
+    background-color: rgb(254,193,7);
+    cursor: pointer;
+    font-family:sans-serif;
+
+}

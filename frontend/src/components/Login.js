@@ -13,19 +13,19 @@ export default function Login(props){
             history.push("/dashboard")
         }).catch((error)=>{
             if(error =="Error: Request failed with status code 404"){
-                setMessage(<div><p>The email doesn't exist </p></div>)
+                setMessage(<div className="rigMess1"><p className="pMess">The email doesn't exist </p></div>)
             }if (error =="Error: Request failed with status code 403"){
-                setMessage(<div><p>The password you've entered is incorrect </p></div>)
+                setMessage(<div className="rigMess1"><p className="pMess">The password you've entered is incorrect </p></div>)
             }
         })
     }
-    return (<div >
+    return (<div className="Login">
         <p>Login:</p>
-          <input type={Text} placeholder="email here" onChange={(e)=>{setEmail(e.target.value)}} ></input>
+          <input className="inp" type={Text} placeholder="email here" onChange={(e)=>{setEmail(e.target.value)}} ></input>
           <br/>
-          <input type="password" placeholder="password here" onChange={(e)=>{setPassword(e.target.value)}} ></input>
+          <input className="inp" type="password" placeholder="password here" onChange={(e)=>{setPassword(e.target.value)}} ></input>
           <br/>
-          <button onClick={login} >Login</button>
+          <button className="btn" onClick={login} >Login</button>
           {message}
       </div>)
 }

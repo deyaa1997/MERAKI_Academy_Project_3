@@ -22,16 +22,17 @@ export default function Dashboard({token}) {
         })
     }}
     return(
-    <div>
+    <div className="Rigster">
         <p>Dashboard</p>
-        <button onClick={getArticle}>Get All Articles</button>
+        <button className="btn" onClick={getArticle}>Get All Articles</button>
         {articles.map((elem,i)=>{
-                return(<div>
-                    <h1>{elem.title}<button>More Details</button></h1>
+                return(<div className="grid">
+                <div className="Dashboard">
+                    <h1 >{elem.title}<button className="btn2">More Details</button></h1>
                     
 
-                    <p>{elem.description}</p>
-                </div>)
+                    <p >{elem.description}</p>
+                </div></div>)
             })}
     </div>)
 

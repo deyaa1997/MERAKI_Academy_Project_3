@@ -5,9 +5,8 @@ export default function Header({ token }) {
   return (
     <>
       {!token ? (
-        <div>
+        <div className="header">
           <Link to="/login">Login </Link>
-          {"... "}
           <Link to="/rigster">Rigster</Link>
         </div>
       ) : (
@@ -15,9 +14,8 @@ export default function Header({ token }) {
       )}
 
       {token ? (
-        <div>
+        <div className="header">
           <Link to="/dashboard">Dashboard </Link>
-          {"... "}
           <Link to="/newArticle">NewArticle</Link>
         </div>
       ) : (

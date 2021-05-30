@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from "axios"
+
 export default function Rigster() {
   const [message,setMessage] = useState(<div></div>)
   const [firstName,setFirstName] = useState("")
@@ -13,29 +14,29 @@ export default function Rigster() {
   .then(function (response) {
     // handle success
     console.log(response);
-    setMessage(<div><p>The user has been created successfully</p></div>)
+    setMessage(<div className="rigMess"><p className="pMess">The user has been created successfully</p></div>)
   })
   .catch(function (error) {
     // handle error
     console.log(error);
-    setMessage(<div><p>Error happened while register, please try again</p></div>)
+    setMessage(<div className="rigMess1"><p className="pMess">Error happened while register, please try again</p></div>)
   })
     }
-    return (<div >
+    return (<div className="Rigster">
       <p>Rigster:</p>
-        <input type={Text} placeholder="firstName here" onChange={(e)=>{setFirstName(e.target.value)}}></input>
+        <input className="inp" type={Text} placeholder="firstName here" onChange={(e)=>{setFirstName(e.target.value)}}></input>
         <br/>
-        <input type={Text} placeholder="lastName here" onChange={(e)=>{setLastName(e.target.value)}}></input>
+        <input className="inp" type={Text} placeholder="lastName here" onChange={(e)=>{setLastName(e.target.value)}}></input>
         <br/>
-        <input type={Number} placeholder="age here" onChange={(e)=>{setAge(e.target.value)}}></input>
+        <input className="inp" type={Number} placeholder="age here" onChange={(e)=>{setAge(e.target.value)}}></input>
         <br/>
-        <input type={Text} placeholder="country here" onChange={(e)=>{setCountry(e.target.value)}}></input>
+        <input className="inp" type={Text} placeholder="country here" onChange={(e)=>{setCountry(e.target.value)}}></input>
         <br/>
-        <input type={Text} placeholder="email here" onChange={(e)=>{setEmail(e.target.value)}}></input>
+        <input className="inp" type={Text} placeholder="email here" onChange={(e)=>{setEmail(e.target.value)}}></input>
         <br/>
-        <input type="password" placeholder="password here" onChange={(e)=>{setPassword(e.target.value)}}></input>
+        <input className="inp" type="password" placeholder="password here" onChange={(e)=>{setPassword(e.target.value)}}></input>
         <br/>
-        <button onClick={rigster}>Rigster</button>
+        <button className="btn" onClick={rigster}>Rigster</button>
         {message}
     </div>)
 }
